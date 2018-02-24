@@ -991,3 +991,43 @@ lfix_t lloglk(lfix_t a)
 }
 
 #endif
+
+fix_t precalcX[5] = {65536, 81920, 98304, 114688, 131072};
+fix_t precalcY[5] = {178145, 228743, 293711, 377133, 484249};
+fix_t exp(fix_t x)
+{
+  if(x == 0) return (fix_t)65536;
+  else if(x > (fix_t)131072) {
+    fix_t temp = exp(divk(x, 131072));
+    return mulk(temp, temp);
+  }
+  else if(x < (fix_t)65536) {
+    return mulk(exp(x+1), (fix_t)24109);
+  }
+  else {
+    fix_t t0=0;
+    fix_t y0 = 65536;
+
+    for(int i = 0; i < 5; i++) {
+      if(precalcX[i] == x)
+        return precalcY[i];
+      else if(precalcX[i] > x) {
+        t0 = precalcX[i];
+        y0 = precalcY[i];
+      }
+    }
+
+    fix_t y[5];
+    y[0] = y0;
+    fix_t h = divk(t0-x, (fix_t)262144);
+    for(int i = 1; i < 5; i++) {
+      fix_t y_n = y[i-1];
+      fix_t k1 = y_n;
+      fix_t k2 = y_n + mulk(h, divk(k1, 484249));
+      fix_t k3 = y_n + mulk(h, divk(k2, 484249));
+      fix_t k4 = y_n + mulk(h, k3);
+      y[i] = y_n + divk(mulk(h, k1+mulk(484249, k2) + mulk(484249, k3) + k4), 393216);
+    }
+    return y[4];
+  }
+}

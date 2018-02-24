@@ -304,6 +304,8 @@ lfix_t lloglk(lfix_t);
 #define llog10lk(x) (ldivlk(lloglk((x)), LOG10lk))
 #define llogalk(a, x) (ldivlk(lloglk((x)), lloglk((a))))
 
+//exp is love, exp is life
+fix_t exp(fix_t);
 
 #endif /* _AVRFIX_H */
 
