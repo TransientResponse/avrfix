@@ -23,11 +23,13 @@
 #include <avr/interrupt.h>
 /*#include <avr/signal.h>*/
 #include <avr/pgmspace.h>
+#endif
+//Again?
+#include <inttypes.h>
 
 #include "avrfix.h"
 #include "avrfix_config.h"
 
-#endif
 #if BYTE_ORDER == BIG_ENDIAN
 typedef struct {
    unsigned short ll;

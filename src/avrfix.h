@@ -28,6 +28,8 @@
 /*#include <avr/signal.h>*/
 #include <avr/pgmspace.h>
 // #include "avrfix_config.h"
+#else
+#include <inttypes.h>
 #endif
 
 /* Only two datatypes are used from the ISO/IEC standard:
@@ -36,9 +38,15 @@
  * long  fix_t with  s7.24 bit format
  */
 
+#ifndef TEST_ON_PC
 typedef signed short sfix_t;
 typedef signed long  fix_t;
 typedef signed long  lfix_t;
+#else
+typedef int16_t sfix_t;
+typedef int32_t fix_t;
+typedef int32_t lfix_t;
+#endif
 
 /* Pragmas for defining overflow behaviour */
 
